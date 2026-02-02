@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Front - Unified</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- 1. YOUR ORIGINAL THEME VARIABLES --- */
+        :root {
+            --header-text: #2e7d32;
+            --bg-color: #e8f5e9;
+            --card-green: #66bb6a;
+            --card-blue: #42a5f5;
+            --btn-green: #4caf50;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            /* New Theme Accents */
+            --lab-blue: #00acc1;
+            --medical-red: #d32f2f;
+            --nature-brown: #6d4c41;
+        }
+
+        * { box-sizing: border-box; transition: all 0.2s ease; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- 2. HEADER (ORIGINAL) --- */
+        header {
+            background: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-top: 5px solid var(--header-text);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--header-text);
+            font-size: 28px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        header i { font-size: 24px; color: #f9a825; }
+        header .tractor-icon { color: var(--header-text); }
+
+        /* --- 3. MAIN VIEWPORT --- */
+        #viewport {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 100px;
+        }
+
+        .section { display: none; width: 100%; max-width: 1000px; margin: 0 auto; padding: 40px 20px; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- 4. HOME PAGE STYLES (ORIGINAL) --- */
+        .dashboard-row { display: flex; gap: 20px; margin-bottom: 40px; justify-content: center; }
+        .dash-card { flex: 1; padding: 25px; border-radius: 8px; color: white; box-shadow: var(--shadow); max-width: 400px; }
+        .card-green { background-color: var(--card-green); }
+        .card-blue { background-color: var(--card-blue); }
+        .dash-title { font-size: 14px; font-weight: bold; text-transform: uppercase; opacity: 0.9; margin-bottom: 15px; display: block; }
+        .crop-price { font-size: 24px; font-weight: bold; margin-bottom: 5px; display: block; }
+        .sub-text { font-size: 16px; opacity: 0.9; }
+        .graph-container { height: 50px; display: flex; align-items: flex-end; gap: 5px; margin-bottom: 10px; border-bottom: 2px solid rgba(255,255,255,0.5); }
+        .graph-line { width: 100%; height: 100%; position: relative; }
+        .graph-line svg { width: 100%; height: 100%; overflow: visible; }
+        .graph-line path { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; }
+        .section-title { text-align: left; color: #444; font-size: 14px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; padding-left: 5px; }
+        .product-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .product-card { background: white; border-radius: 8px; padding: 15px; text-align: center; box-shadow: var(--shadow); width: 200px; }
+        .product-img { width: 100px; height: 120px; object-fit: contain; margin-bottom: 10px; }
+        .prod-name { font-size: 12px; font-weight: bold; color: #333; background: #e8f5e9; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; }
+        .prod-price { display: block; font-size: 18px; font-weight: bold; color: #333; }
+
+        /* --- 5. NEW FEATURES STYLES (IMPROVED) --- */
+        .lab-card { border-top: 4px solid var(--lab-blue); position: relative; }
+        .priority-tag { position: absolute; top: -10px; left: 10px; background: #ffd600; color: #333; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .medical-card { border-left: 5px solid var(--medical-red); }
+        .nature-bg { background: #fff url('https://www.transparenttextures.com/patterns/leaf.png'); border: 1px solid #c8e6c9; }
+        .local-price-tip { background: #fff9c4; padding: 10px; border-radius: 5px; font-size: 12px; border: 1px solid #fbc02d; margin: 10px 0; }
+        .lab-visual { width: 100%; height: 150px; background: url('https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=800') center/cover; border-radius: 8px; margin-bottom: 15px; border-bottom: 4px solid var(--lab-blue); }
+        .market-visual { width: 100%; height: 150px; background: url('https://images.unsplash.com/photo-1501004318641-729e8c3986e7?auto=format&fit=crop&w=800') center/cover; border-radius: 8px; margin-bottom: 15px; }
+
+        /* --- 6. BOTTOM PANEL (ORIGINAL LAYOUT) --- */
+        .bottom-panel { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #ddd; position: fixed; bottom: 0; width: 100%; }
+        .weather-box { display: flex; align-items: center; gap: 15px; }
+        .weather-temp { font-size: 14px; color: #333; font-weight: bold; }
+        .nav-center { display: flex; gap: 40px; }
+        .nav-btn { text-align: center; cursor: pointer; color: #888; text-decoration: none; border: none; background: none; }
+        .nav-btn.active { color: var(--header-text); }
+        .nav-btn i { font-size: 24px; margin-bottom: 5px; display: block; }
+        .nav-btn span { font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .broker-box { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+        .broker-input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; width: 150px; }
+        .verify-btn { background-color: var(--btn-green); color: white; border: none; padding: 8px 15px; border-radius: 4px; font-size: 10px; font-weight: bold; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .dashboard-row, .product-grid, .bottom-panel { flex-direction: column; align-items: center; }
+            .bottom-panel { position: relative; gap: 20px; }
+            .nav-center { gap: 20px; }
+        }
+        .doco{
+            color: #30a74d;
+            height: 20%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>
+            <i class="fa-solid fa-wheat-awn"></i>
+            <span id="header-title">FARMERS FRONT</span>
+            <i class="fa-solid fa-tractor tractor-icon"></i>
+        </h1>
+    </header>
+
+    <main id="viewport">
+        
+        <section id="home" class="section active">
+            <div class="dashboard-row">
+                <div class="dash-card card-green">
+                    <span class="dash-title">TODAY'S CROP RATES</span>
+                    <span class="crop-price">PADDY (COMMON);<br>₹1,800/QUINTAL</span>
+                    <span class="sub-text">SUGARCANE</span>
+                </div>
+                <div class="dash-card card-blue">
+                    <span class="dash-title">MARKET PRICE TRENDS</span>
+                    <div class="graph-container">
+                        <div class="graph-line">
+                            <svg viewBox="0 0 100 50" preserveAspectRatio="none"><path d="M0,40 Q25,10 50,30 T100,10" /></svg>
+                        </div>
+                    </div>
+                    <span class="sub-text" style="font-size: 12px; font-weight: bold;">PADDY: + 2.5% &nbsp;&nbsp; SUGARCANE - 1.5%</span>
+                </div>
+            </div>
+
+            <div class="section-title">BEST SELLING PRODUCTS</div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="image/seeds.jpg" class="product-img">
+                    <span class="prod-name">VEGETABLE SEEDS</span>
+                    <span class="prod-price">₹99</span>
+                </div>
+                <div class="product-card">
+                    <img src="image/oil.jpg" class="product-img">
+                    <span class="prod-name">ORGANIC OIL</span>
+                    <span class="prod-price">₹350/LITRE</span>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=200" class="product-img">
+                    <span class="prod-name">ORGANIC FERTILIZER</span>
+                    <span class="prod-price">₹180</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="section">
+            <div class="lab-visual"></div>
+            <div style="background: var(--lab-blue); color:white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3><i class="fa-solid fa-flask-vial"></i> Agri-Chemical Analysis</h3>
+                <p>Advanced lab-tested fertilizers based on soil health reports.</p>
+            </div>
+            <div class="section-title">Priority Products (Based on your history)</div>
+            <div class="product-grid">
+                <div class="product-card lab-card">
+                    <span class="priority-tag">MOST PURCHASED</span>
+                    <img src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=200" class="product-img">
+                    <span class="prod-name" style="background:#e0f7fa">Urea Refill</span>
+                    <span class="prod-price">₹450</span>
+                    <button class="verify-btn" style="background:var(--lab-blue); width:100%; margin-top:5px;">Quick Buy</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="section">
+            <div class="market-visual"></div>
+            <div class="product-card nature-bg" style="width: 100%; text-align: left;">
+                <h3><i class="fa-solid fa-seedling" style="color:var(--header-text)"></i> Sell Harvest</h3>
+                <div class="local-price-tip">
+                    <i class="fa-solid fa-circle-info"></i> Suggested Local Market Price: <b>₹2,100 - ₹2,300</b>
+                </div>
+                <label style="font-size: 11px; font-weight: bold;">CROP TYPE</label>
+                <input type="text" placeholder="e.g. Wheat" class="broker-input" style="width: 100%; margin-bottom: 10px;">
+                <button class="verify-btn">Post for Sale</button>
+            </div>
+        </section>
+
+        <section id="cattle" class="section">
+            <div class="product-card medical-card" style="width: 100%; text-align: left; display: flex; gap: 20px; align-items: center;">
+                <i class="fa-solid fa-user-md" style="font-size: 40px; color: var(--medical-red);"></i>
+                <div>
+                    <h3 style="margin:0">Live Veterinary Doctor</h3>
+                    <p style="margin:5px 0; font-size: 12px;">Immediate support for cattle health & vaccines.</p>
+                    <a href="https://www.vetlive.in/">
+                    <button class="verify-btn" style="background:var(--medical-red)">Consult Doctor</button>
+                    </a>
+                </div>
+            </div>
+            <br>
+            <div class="section-title">Health Certified Livestock</div>
+            <div class="product-grid">
+                <div class="product-card medical-card">
+                    <i class="fa-solid fa-paw" style="color:var(--medical-red); float:right"></i>
+                    <img src="https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=200" class="product-img">
+                    <span class="prod-name">HF Cow (Healthy)</span>
+                    <span class="prod-price">₹65,000</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="bottom-panel">
+        <div class="weather-box">
+            <div class="weather-text">
+                <div>WEATHER & AI</div>
+                <div class="weather-temp"><i class="fa-solid fa-cloud-sun" style="color: #f9a825;"></i> 29°C, SUNNY</div>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <button class="nav-btn active" onclick="showTab('home', 'FARMERS FRONT', this)">
+                <i class="fa-solid fa-house"></i><span>HOME</span>
+            </button>
+            <a class="doco" href="https://www.amazon.in/s?k=agriculture+fertilizer&adgrpid=1326012616608092&hvadid=82876047464707&hvbmt=bp&hvdev=c&hvlocphy=230285&hvnetw=o&hvqmt=p&hvtargid=kwd-82876664062455%3Aloc-90&hydadcr=12891_1941011&mcid=ac1bd413945a3a78b50e679933f4ba9b&tag=msndeskstdin-21&ref=pd_sl_6p39ukrkb9_p">
+                <button class="nav-btn" onclick="showTab('tools', 'LAB & TOOLS', this)">
+                <i class="fa-solid fa-flask"></i><span>FERTILIZERS</span>
+                </button>
+            </a>
+                
+            <button class="nav-btn" onclick="showTab('market', 'NATURE MARKET', this)">
+                <i class="fa-solid fa-tree"></i><span>MARKET</span>
+            </button>
+            <button class="nav-btn" onclick="showTab('cattle', 'VET CARE', this)">
+                <i class="fa-solid fa-stethoscope"></i><span>CATTLE</span>
+            </button>
+        </div>
+
+        <div class="broker-box">
+            <span class="broker-label">CROPS BROKER ID</span>
+            <div class="broker-input-wrapper">
+                <input type="text" class="broker-input" placeholder="ID: F93798012">
+                <button class="verify-btn">VERIFY</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(id, title, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('header-title').innerText = title;
+            document.getElementById('viewport').scrollTop = 0;
+        }u
+    </script>
+</body>
+</html>
